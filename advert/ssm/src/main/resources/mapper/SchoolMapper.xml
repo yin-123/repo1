@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoshu.dao.SchoolMapper">
+  
+  
+  <resultMap id="BaseResultMap" type="com.xiaoshu.entity.School">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" />
+    <result column="name" property="name" />
+    <result column="phone" property="phone" />
+    <result column="cid" property="cid" />
+    <result column="address" property="address" />
+    <result column="status" property="status" />
+    <result column="createtime" property="createtime" />
+    <association property="city" javaType="com.xiaoshu.entity.City">
+      <id column="cid" property="cid" />
+      <result column="cname" property="cname" />
+    </association>
+  </resultMap>
+  
+  
+  <select id="selectAllSchool" parameterType="school" resultMap="BaseResultMap">
+    SELECT * FROM school s,city c WHERE s.cid=c.cid
+    <if test="phone!=null and phone!=''">
+      and s.phone like '%${phone}%'
+    </if>
+    <if test="cid!=null and cid!=0">
+      and s.cid = #{cid}
+    </if>
+  </select>
+
+  <delete id="deleteSchool" parameterType="school">
+    DELETE FROM school WHERE id=#{id}
+  </delete>
+  
+</mapper>
